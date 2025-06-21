@@ -1,6 +1,7 @@
 // Global Variables
 let currentUser = null;
 let isLoggedIn = false;
+let isDarkMode = false;
 
 // Audio Elements
 const coinSound = document.getElementById('coinSound');
@@ -11,12 +12,54 @@ const caseSound = document.getElementById('caseSound');
 const loadingScreen = document.getElementById('loadingScreen');
 const mainApp = document.getElementById('mainApp');
 
+// LocalStorage Keys
+const STORAGE_KEYS = {
+    USER: 'oltinX_user',
+    THEME: 'oltinX_theme',
+    SETTINGS: 'oltinX_settings'
+};
+
+// Dark Mode Functions
+function initializeTheme() {
+    const savedTheme = localStorage.getItem(STORAGE_KEYS.THEME);
+    if (savedTheme === 'dark') {
+        enableDarkMode();
+    } else {
+        disableDarkMode();
+    }
+}
+
+function toggleDarkMode() {
+    if (isDarkMode) {
+        disableDarkMode();
+    } else {
+        enableDarkMode();
+    }
+}
+
+function enableDarkMode() {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('themeIcon').className = 'fas fa-sun';
+    isDarkMode = true;
+    localStorage.setItem(STORAGE_KEYS.THEME, 'dark');
+}
+
+function disableDarkMode() {
+    document.documentElement.removeAttribute('data-theme');
+    document.getElementById('themeIcon').className = 'fas fa-moon';
+    isDarkMode = false;
+    localStorage.setItem(STORAGE_KEYS.THEME, 'light');
+}
+
 // Initialize App
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
 });
 
 function initializeApp() {
+    // Initialize theme
+    initializeTheme();
+    
     // Simulate loading
     setTimeout(() => {
         loadingScreen.style.opacity = '0';
@@ -34,40 +77,47 @@ function createDefaultUser() {
         openedCases: 0,
         biggestWin: 0,
         joinDate: new Date().toLocaleDateString(),
-        gameHistory: []
+        gameHistory: [],
+        totalWinnings: 0,
+        totalSpent: 0,
+        lastLogin: new Date().toISOString()
     };
     isLoggedIn = true;
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    saveUserData();
+}
+
+function saveUserData() {
+    if (currentUser) {
+        currentUser.lastLogin = new Date().toISOString();
+        localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(currentUser));
+    }
+}
+
+function loadUserData() {
+    const savedUser = localStorage.getItem(STORAGE_KEYS.USER);
+    if (savedUser) {
+        try {
+            currentUser = JSON.parse(savedUser);
+            isLoggedIn = true;
+            return true;
+        } catch (error) {
+            console.error('Error loading user data:', error);
+            return false;
+        }
+    }
+    return false;
 }
 
 function checkAuthStatus() {
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        isLoggedIn = true;
-    } else {
-        // Create default user if no user exists
+    if (!loadUserData()) {
+        // Create default user if no user exists or data is corrupted
         createDefaultUser();
     }
     showMainApp();
     updateUserInterface();
 }
 
-function createDefaultUser() {
-    currentUser = {
-        nickname: 'Player',
-        coins: 1000,
-        openedCases: 0,
-        biggestWin: 0,
-        joinDate: new Date().toLocaleDateString(),
-        gameHistory: []
-    };
-    isLoggedIn = true;
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-}
-
 function showMainApp() {
-    authScreen.style.display = 'none';
     mainApp.style.display = 'flex';
     initializeGames();
 }
@@ -148,11 +198,11 @@ function openCase(caseType) {
         epic: 2000,
         legendary: 1500,
         tekin: 0,
-        Neymar:500,
+        Neymar: 500,
         best: 1000,
-        sigma:1000,
-        jogn:1000,
-        qol:6500,
+        sigma: 1000,
+        john: 1000,
+        qol: 6500,
         Village: 1000
     };
     
@@ -179,6 +229,10 @@ function openCase(caseType) {
     
     // Deduct coins
     currentUser.coins -= price;
+    currentUser.totalSpent += price;
+    
+    // Save data immediately after deduction
+    saveUserData();
     
     // Show opening animation
     const caseOpening = document.getElementById('caseOpening');
@@ -196,6 +250,7 @@ function openCase(caseType) {
         // Add reward
         currentUser.coins += reward;
         currentUser.openedCases++;
+        currentUser.totalWinnings += reward;
         
         if (reward > currentUser.biggestWin) {
             currentUser.biggestWin = reward;
@@ -203,6 +258,9 @@ function openCase(caseType) {
         
         // Add to history
         addToHistory('Case Opening', reward, 'win');
+        
+        // Save data after winning
+        saveUserData();
         
         // Show result
         showCaseResult(reward);
@@ -232,7 +290,7 @@ function updateUserInterface() {
     if (!currentUser) return;
     
     document.getElementById('userBalance').textContent = currentUser.coins + ' coins';
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    saveUserData();
 }
 
 function addToHistory(game, amount, result) {
@@ -251,6 +309,9 @@ function addToHistory(game, amount, result) {
     if (currentUser.gameHistory.length > 50) {
         currentUser.gameHistory = currentUser.gameHistory.slice(-50);
     }
+    
+    // Save data after adding to history
+    saveUserData();
 }
 
 function showNotification(message, type = 'info') {
@@ -332,9 +393,16 @@ document.head.appendChild(style);
 // Auto-save user data every 30 seconds
 setInterval(() => {
     if (currentUser) {
-        updateUserInterface();
+        saveUserData();
     }
 }, 30000);
+
+// Save data before page unload
+window.addEventListener('beforeunload', () => {
+    if (currentUser) {
+        saveUserData();
+    }
+});
 
 function initializeGames() {
     // Initialize any necessary game components
