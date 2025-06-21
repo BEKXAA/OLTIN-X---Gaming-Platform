@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLTIN-X - Gaming Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <i class="fas fa-gamepad fa-spin"></i>
+            <h2>OLTIN-X</h2>
+            <p>Yuklanmoqda...</p>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="main-app">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-gamepad"></i>
+                <span>OLTIN-X</span>
+            </div>
+            
+            <div class="nav-links">
+                <button class="nav-btn active" onclick="showSection('profile')">
+                    <i class="fas fa-user"></i>
+                    <span>Profil</span>
+                </button>
+                <button class="nav-btn" onclick="showSection('case')">
+                    <i class="fas fa-box"></i>
+                    <span>Case</span>
+                </button>
+            </div>
+
+            <div class="nav-user">
+                <span id="userBalance">0 coins</span>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Content Sections -->
+        <main class="main-content">
+            <!-- Profile Section -->
+            <section id="profileSection" class="content-section active">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="profileNickname">User</h2>
+                            <p class="profile-status">Online</p>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-coins"></i>
+                            <h3>Balans</h3>
+                            <p id="profileBalance">0 coins</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-box-open"></i>
+                            <h3>Ochilgan Case</h3>
+                            <p id="openedCases">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-trophy"></i>
+                            <h3>Eng Katta Yutuq</h3>
+                            <p id="biggestWin">0 coins</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-calendar"></i>
+                            <h3>Ro'yxatdan o'tgan</h3>
+                            <p id="joinDate">Bugun</p>
+                        </div>
+                    </div>
+
+                    <div class="history-section">
+                        <h3>O'yin Tarixi</h3>
+                        <div id="gameHistory" class="history-list">
+                            <p class="no-history">Hali o'yin tarixi yo'q</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Case Opening Section -->
+            <section id="caseSection" class="content-section">
+                <div class="case-container">
+                    <div class="case-header">
+                        <h2>🎁 Case Opening</h2>
+                        <div class="case-balance">
+                            <span>Balans: <span id="caseBalance">0</span> coins</span>
+                        </div>
+                    </div>
+
+                    <div class="case-grid">
+                        <div class="case-item" onclick="openCase('basic')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/ST2_PlayersChoi%D1%81e_CONTENT-CASE-FIN.png" alt="Basic Case" class="case-img">
+                            </div>
+                            <h3>Knife Case</h3>
+                            <p>1000 coins</p>
+                            <span class="case-reward">1-10000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('rare')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/BD_RONALDO.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Rolando Case</h3>
+                            <p>500 coins</p>
+                            <span class="case-reward">5-1000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('rare')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/BP_SUM24_megalodon.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Megolodon Case</h3>
+                            <p>500 coins</p>
+                            <span class="case-reward">5-1000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('tekin')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/U_Free_TELEGRAM-CASE-2.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Tekin Case</h3>
+                            <p>0 coins</p>
+                            <span class="case-reward">5-100 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('Neymar')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/BD_NEYMAR.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Neymar Case</h3>
+                            <p>500 coins</p>
+                            <span class="case-reward">1-1000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('rare')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/BD_NEYMAR.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Messi Case</h3>
+                            <p>500 coins</p>
+                            <span class="case-reward">5-1000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('rare')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/BD_MBAPPE.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Mbappe Case</h3>
+                            <p>500 coins</p>
+                            <span class="case-reward">5-1000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('rare')">
+                            <div class="case-image">
+                                <img src="https://bulldrop.vip/_nuxt/case_light.D1UjSiRO.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Bulldrop Case</h3>
+                            <p>500 coins</p>
+                            <span class="case-reward">5-1000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('best')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/U_Legend_MrBeast.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Mr Beast Case</h3>
+                            <p>1000 coins</p>
+                            <span class="case-reward">1-2000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('rare')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/ST2_Maps_DUNE.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Dune Case</h3>
+                            <p>500 coins</p>
+                            <span class="case-reward">5-1000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('sigma')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/ST2_Memes_PATRIK-CASE.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Siqma Case</h3>
+                            <p>1000 coins</p>
+                            <span class="case-reward">5-10000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('john')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/NEW_JOHN_WICK.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>John Wick Case</h3>
+                            <p>1000 coins</p>
+                            <span class="case-reward">5-3000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('qol')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/ST2_PlayersChoi%D1%81e_GLOVES-CASE.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Qolqoplar Case</h3>
+                            <p>6500 coins</p>
+                            <span class="case-reward">500-10000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('Village')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/ST2_Maps_Village.png" alt="Rare Case" class="case-img">
+                            </div>
+                            <h3>Village Case</h3>
+                            <p>1000 coins</p>
+                            <span class="case-reward">500-1500 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('epic')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/U_NoName_BMW_M5.png" alt="Epic Case" class="case-img">
+                            </div>
+                            <h3>BMW Case</h3>
+                            <p>2000 coins</p>
+                            <span class="case-reward">100-100000 coins</span>
+                        </div>
+                        <div class="case-item" onclick="openCase('legendary')">
+                            <div class="case-image">
+                                <img src="https://cdn.bulldrop.vip/media/cases/U_NoName_AMG_CLS.png" alt="Legendary Case" class="case-img">
+                            </div>
+                            <h3>Mercedes CLS Case</h3>
+                            <p>1500 coins</p>
+                            <span class="case-reward">50-50000 coins</span>
+                        </div>
+                    </div>
+
+                    <div id="caseOpening" class="case-opening" style="display: none;">
+                        <div class="case-animation">
+                            <div class="case-box">
+                                <img src="images/opening-case.svg" alt="Opening Case" class="opening-case-img">
+                            </div>
+                            <div class="opening-text">Ochilmoqda...</div>
+                        </div>
+                    </div>
+
+                    <div id="caseResult" class="case-result" style="display: none;">
+                        <div class="result-animation">
+                            <div class="result-coin">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="result-text">
+                                <h3>Tabriklaymiz!</h3>
+                                <p>Siz <span id="caseReward">0</span> coins yutdingiz!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="coinSound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/coin-drop-1.wav" type="audio/wav">
+    </audio>
+    <audio id="winSound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+    <audio id="caseSound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/box-opening-1.wav" type="audio/wav">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

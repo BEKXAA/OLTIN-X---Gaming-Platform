@@ -1,0 +1,67 @@
+<svg width="120" height="100" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer glow -->
+  <rect x="5" y="25" width="110" height="70" rx="12" fill="url(#legendaryOuterGlow)" opacity="0.3"/>
+  
+  <!-- Case Body -->
+  <rect x="10" y="30" width="100" height="60" rx="8" fill="url(#legendaryGradient)" stroke="#E65100" stroke-width="2"/>
+  
+  <!-- Case Lid -->
+  <rect x="10" y="10" width="100" height="25" rx="8" fill="url(#legendaryLidGradient)" stroke="#E65100" stroke-width="2"/>
+  
+  <!-- Lock -->
+  <rect x="55" y="5" width="10" height="15" rx="2" fill="url(#legendaryLockGradient)" stroke="#E65100" stroke-width="1"/>
+  
+  <!-- Shine effect -->
+  <rect x="10" y="30" width="100" height="60" rx="8" fill="url(#shineGradient)" opacity="0.4"/>
+  
+  <!-- Multiple sparkle effects -->
+  <circle cx="15" cy="35" r="2" fill="white" opacity="1"/>
+  <circle cx="105" cy="45" r="1.5" fill="white" opacity="0.9"/>
+  <circle cx="25" cy="65" r="1" fill="white" opacity="0.8"/>
+  <circle cx="95" cy="30" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="35" cy="80" r="1" fill="white" opacity="0.9"/>
+  <circle cx="85" cy="70" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="45" cy="40" r="1" fill="white" opacity="0.7"/>
+  <circle cx="75" cy="55" r="1.5" fill="white" opacity="0.9"/>
+  
+  <!-- Inner glow -->
+  <rect x="12" y="32" width="96" height="56" rx="6" fill="none" stroke="url(#legendaryInnerGlow)" stroke-width="1" opacity="0.6"/>
+  
+  <!-- Crown symbol -->
+  <path d="M55 20 L60 15 L65 20 L63 18 L67 18 L65 22 L63 20 L60 25 L57 20 L55 22 L53 18 L57 18 Z" fill="url(#crownGradient)"/>
+  
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="legendaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9800;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFB74D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F57C00;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="legendaryLidGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFB74D;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FF9800;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFB74D;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="legendaryLockGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9800;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F57C00;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="shineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:transparent;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:white;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:transparent;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="legendaryOuterGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FF9800;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#FF9800;stop-opacity:0" />
+    </radialGradient>
+    <radialGradient id="legendaryInnerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0" />
+    </radialGradient>
+    <linearGradient id="crownGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA000;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg> 
