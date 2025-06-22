@@ -137,6 +137,10 @@ function showSection(section) {
         updateProfileSection();
     } else if (section === 'case') {
         updateCaseSection();
+    } else if (section === 'inventory') {
+        updateInventorySection();
+    } else if (section === 'market') {
+        updateMarketSection();
     }
 }
 
@@ -171,13 +175,19 @@ function updateGameHistory() {
     const historyHTML = currentUser.gameHistory
         .slice(-10) // Show last 10 games
         .reverse()
-        .map(game => `
-            <div class="history-item ${game.result === 'win' ? 'win' : 'lose'}">
-                <div class="history-game">${game.game}</div>
-                <div class="history-amount">${game.amount} coins</div>
-                <div class="history-time">${game.time}</div>
-            </div>
-        `)
+        .map(game => {
+            let resultClass = game.result;
+            if (game.result === 'purchase') {
+                resultClass = 'purchase';
+            }
+            return `
+                <div class="history-item ${resultClass}">
+                    <div class="history-game">${game.game}</div>
+                    <div class="history-amount">${game.amount} coins</div>
+                    <div class="history-time">${game.time}</div>
+                </div>
+            `;
+        })
         .join('');
     
     historyContainer.innerHTML = historyHTML;
@@ -195,8 +205,8 @@ function openCase(caseType) {
     const casePrices = {
         basic: 1000,
         rare: 500,
-        epic: 2000,
-        legendary: 1500,
+        epic: 10000,
+        legendary: 5000,
         tekin: 0,
         Neymar: 500,
         best: 1000,
@@ -283,6 +293,85 @@ function showCaseResult(reward) {
     setTimeout(() => {
         caseResult.style.display = 'none';
     }, 3000);
+}
+
+// Market Functions
+function updateMarketSection() {
+    if (!currentUser) return;
+    document.getElementById('marketBalance').textContent = currentUser.coins;
+}
+
+function showMarketCategory(category) {
+    // Update active category button
+    document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.closest('.category-btn').classList.add('active');
+    
+    // Filter items based on category (for now, show all items)
+    // In a real implementation, you would filter items based on category
+    const marketGrid = document.getElementById('marketGrid');
+    const items = marketGrid.querySelectorAll('.market-item');
+    
+    items.forEach(item => {
+        item.style.display = 'block';
+    });
+    
+    // Add category-specific filtering logic here
+    if (category !== 'all') {
+        // Example filtering (you can expand this based on your needs)
+        items.forEach(item => {
+            const itemName = item.querySelector('h3').textContent.toLowerCase();
+            if (category === 'skins' && !itemName.includes('skin')) {
+                item.style.display = 'none';
+            } else if (category === 'weapons' && !itemName.includes('ak') && !itemName.includes('m4') && !itemName.includes('awp') && !itemName.includes('usp') && !itemName.includes('knife')) {
+                item.style.display = 'none';
+            } else if (category === 'accessories' && !itemName.includes('gloves')) {
+                item.style.display = 'none';
+            }
+        });
+    }
+}
+
+function buyItem(itemId, price) {
+    if (!currentUser) return;
+    
+    if (currentUser.coins < price) {
+        showNotification('Yetarli coin yo\'q!', 'error');
+        return;
+    }
+    
+    // Deduct coins
+    currentUser.coins -= price;
+    currentUser.totalSpent += price;
+    
+    // Add to inventory (you can expand this)
+    if (!currentUser.inventory) {
+        currentUser.inventory = [];
+    }
+    
+    const itemName = event.target.closest('.market-item').querySelector('h3').textContent;
+    currentUser.inventory.push({
+        id: itemId,
+        name: itemName,
+        price: price,
+        purchasedAt: new Date().toISOString()
+    });
+    
+    // Add to history
+    addToHistory('Market Purchase', -price, 'purchase');
+    
+    // Save data
+    saveUserData();
+    
+    // Update interface
+    updateUserInterface();
+    updateMarketSection();
+    updateInventorySection();
+    
+    // Show success notification
+    showNotification(`${itemName} muvaffaqiyatli sotib olindi va inventarga qo'shildi!`, 'success');
+    
+    // Play purchase sound
+    coinSound.play().catch(e => console.log('Audio play failed'));
 }
 
 // Utility Functions
@@ -406,4 +495,145 @@ window.addEventListener('beforeunload', () => {
 
 function initializeGames() {
     // Initialize any necessary game components
+}
+
+// Inventory Functions
+function updateInventorySection() {
+    if (!currentUser) return;
+    
+    // Initialize inventory if it doesn't exist
+    if (!currentUser.inventory) {
+        currentUser.inventory = [];
+    }
+    
+    // Update inventory count
+    document.getElementById('inventoryCount').textContent = currentUser.inventory.length;
+    
+    // Update inventory grid
+    updateInventoryGrid();
+}
+
+function updateInventoryGrid() {
+    const inventoryGrid = document.getElementById('inventoryGrid');
+    
+    if (!currentUser.inventory || currentUser.inventory.length === 0) {
+        inventoryGrid.innerHTML = `
+            <div class="empty-inventory">
+                <i class="fas fa-box-open"></i>
+                <h3>Inventar bo'sh</h3>
+                <p>Marketdan biror narsa sotib oling!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const inventoryHTML = currentUser.inventory.map(item => {
+        const purchaseDate = new Date(item.purchasedAt).toLocaleDateString();
+        return `
+            <div class="inventory-item">
+                <div class="inventory-item-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRugVjumU52B7QAbb9oDKyiTq1ZeqQEwNNDKg&s" alt="${item.name}" class="inventory-item-img" onerror="this.style.display='none'">
+                </div>
+                <div class="inventory-item-info">
+                    <h3>${item.name}</h3>
+                    <p class="inventory-item-description">Sotib olingan buyum</p>
+                    <div class="inventory-item-details">
+                        <span class="inventory-item-price">${item.price} coins</span>
+                        <span class="inventory-item-date">${purchaseDate}</span>
+                    </div>
+                    <div class="inventory-item-actions">
+                        <button class="inventory-btn" onclick="sellItem('${item.id}')">
+                            <i class="fas fa-coins"></i>
+                            <span>Sotish</span>
+                        </button>
+                        <button class="inventory-btn primary" onclick="useItem('${item.id}')">
+                            <i class="fas fa-play"></i>
+                            <span>Ishlatish</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    inventoryGrid.innerHTML = inventoryHTML;
+}
+
+function showInventoryCategory(category) {
+    // Update active category button
+    document.querySelectorAll('.inventory-categories .category-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.closest('.category-btn').classList.add('active');
+    
+    // Filter inventory items based on category
+    const inventoryGrid = document.getElementById('inventoryGrid');
+    const items = inventoryGrid.querySelectorAll('.inventory-item');
+    
+    if (!currentUser.inventory || currentUser.inventory.length === 0) {
+        return;
+    }
+    
+    items.forEach(item => {
+        item.style.display = 'block';
+    });
+    
+    if (category !== 'all') {
+        items.forEach((item, index) => {
+            const inventoryItem = currentUser.inventory[index];
+            if (inventoryItem) {
+                const itemName = inventoryItem.name.toLowerCase();
+                if (category === 'skins' && !itemName.includes('skin')) {
+                    item.style.display = 'none';
+                } else if (category === 'weapons' && !itemName.includes('ak') && !itemName.includes('m4') && !itemName.includes('awp') && !itemName.includes('usp')) {
+                    item.style.display = 'none';
+                } else if (category === 'accessories' && !itemName.includes('gloves') && !itemName.includes('knife')) {
+                    item.style.display = 'none';
+                }
+            }
+        });
+    }
+}
+
+function sellItem(itemId) {
+    if (!currentUser || !currentUser.inventory) return;
+    
+    const itemIndex = currentUser.inventory.findIndex(item => item.id === itemId);
+    if (itemIndex === -1) return;
+    
+    const item = currentUser.inventory[itemIndex];
+    const sellPrice = Math.floor(item.price * 0.7); // Sell for 70% of original price
+    
+    // Remove from inventory
+    currentUser.inventory.splice(itemIndex, 1);
+    
+    // Add coins
+    currentUser.coins += sellPrice;
+    
+    // Add to history
+    addToHistory('Item Sold', sellPrice, 'win');
+    
+    // Save data
+    saveUserData();
+    
+    // Update interface
+    updateUserInterface();
+    updateInventorySection();
+    
+    // Show notification
+    showNotification(`${item.name} ${sellPrice} coinsga sotildi!`, 'success');
+    
+    // Play sound
+    coinSound.play().catch(e => console.log('Audio play failed'));
+}
+
+function useItem(itemId) {
+    if (!currentUser || !currentUser.inventory) return;
+    
+    const item = currentUser.inventory.find(item => item.id === itemId);
+    if (!item) return;
+    
+    // Show notification
+    showNotification(`${item.name} ishlatildi!`, 'success');
+    
+    // Play sound
+    winSound.play().catch(e => console.log('Audio play failed'));
 }

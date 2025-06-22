@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://img.favpng.com/19/24/3/video-games-logo-youtube-image-png-favpng-UjDtMz2svL413z572asWHZJ82.jpg" type="image/x-icon" />
 </head>
 <body>
     <!-- Loading Screen -->
@@ -35,6 +36,14 @@
                 <button class="nav-btn" onclick="showSection('case')">
                     <i class="fas fa-box"></i>
                     <span>Case</span>
+                </button>
+                <button class="nav-btn" onclick="showSection('inventory')">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Inventar</span>
+                </button>
+                <button class="nav-btn" onclick="showSection('market')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Market</span>
                 </button>
             </div>
 
@@ -152,7 +161,7 @@
                         </div>
                         <div class="case-item" onclick="openCase('rare')">
                             <div class="case-image">
-                                <img src="https://cdn.bulldrop.vip/media/cases/BD_NEYMAR.png" alt="Rare Case" class="case-img">
+                                <img src="https://cdn.bulldrop.vip/media/cases/BD_MESSI.png" alt="Rare Case" class="case-img">
                             </div>
                             <h3>Messi Case</h3>
                             <p>500 coins</p>
@@ -227,7 +236,7 @@
                                 <img src="https://cdn.bulldrop.vip/media/cases/U_NoName_BMW_M5.png" alt="Epic Case" class="case-img">
                             </div>
                             <h3>BMW Case</h3>
-                            <p>2000 coins</p>
+                            <p>10000 coins</p>
                             <span class="case-reward">100-100000 coins</span>
                         </div>
                         <div class="case-item" onclick="openCase('legendary')">
@@ -235,7 +244,7 @@
                                 <img src="https://cdn.bulldrop.vip/media/cases/U_NoName_AMG_CLS.png" alt="Legendary Case" class="case-img">
                             </div>
                             <h3>Mercedes CLS Case</h3>
-                            <p>1500 coins</p>
+                            <p>5000 coins</p>
                             <span class="case-reward">50-50000 coins</span>
                         </div>
                     </div>
@@ -259,6 +268,263 @@
                                 <p>Siz <span id="caseReward">0</span> coins yutdingiz!</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Inventory Section -->
+            <section id="inventorySection" class="content-section">
+                <div class="inventory-container">
+                    <div class="inventory-header">
+                        <h2>💼 Inventar</h2>
+                        <div class="inventory-stats">
+                            <span>Jami: <span id="inventoryCount">0</span> buyum</span>
+                        </div>
+                    </div>
+
+                    <div class="inventory-categories">
+                        <button class="category-btn active" onclick="showInventoryCategory('all')">
+                            <i class="fas fa-th"></i>
+                            <span>Hammasi</span>
+                        </button>
+                        <button class="category-btn" onclick="showInventoryCategory('skins')">
+                            <i class="fas fa-palette"></i>
+                            <span>Skinlar</span>
+                        </button>
+                        <button class="category-btn" onclick="showInventoryCategory('weapons')">
+                            <i class="fas fa-gun"></i>
+                            <span>Qurollar</span>
+                        </button>
+                        <button class="category-btn" onclick="showInventoryCategory('accessories')">
+                            <i class="fas fa-gem"></i>
+                            <span>Aksessuarlar</span>
+                        </button>
+                    </div>
+
+                    <div class="inventory-grid" id="inventoryGrid">
+                        <div class="empty-inventory">
+                            <i class="fas fa-box-open"></i>
+                            <h3>Inventar bo'sh</h3>
+                            <p>Marketdan biror narsa sotib oling!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Market Section -->
+            <section id="marketSection" class="content-section">
+                <div class="market-container">
+                    <div class="market-header">
+                        <h2>🛒 Market</h2>
+                        <div class="market-balance">
+                            <span>Balans: <span id="marketBalance">0</span> coins</span>
+                        </div>
+                    </div>
+
+                    <div class="market-categories">
+                        <button class="category-btn active" onclick="showMarketCategory('all')">
+                            <i class="fas fa-th"></i>
+                            <span>Hammasi</span>
+                        </button>
+                        <button class="category-btn" onclick="showMarketCategory('skins')">
+                            <i class="fas fa-palette"></i>
+                            <span>Skinlar</span>
+                        </button>
+                        <button class="category-btn" onclick="showMarketCategory('weapons')">
+                            <i class="fas fa-gun"></i>
+                            <span>Qurollar</span>
+                        </button>
+                        <button class="category-btn" onclick="showMarketCategory('accessories')">
+                            <i class="fas fa-gem"></i>
+                            <span>Aksessuarlar</span>
+                        </button>
+                    </div>
+
+                    <div class="market-grid" id="marketGrid">
+                        <div class="market-item">
+                            <div class="item-image">
+                                <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_gs_ak47_gold_arabesque_light_large.0d1b0b2bfcafe8d214837077367e7dd42394822e.png" alt="AK-47 Gold" class="item-img">
+                            </div>
+                            <div class="item-info">
+                                <h3>AK-47 Gold</h3>
+                                <p class="item-description">Oltin rangli AK-47 skin</p>
+                                <div class="item-price">
+                                    <i class="fas fa-coins"></i>
+                                    <span>5000 coins</span>
+                                </div>
+                            </div>
+                            <button class="buy-btn" onclick="buyItem('ak47_gold', 5000)">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Sotib olish</span>
+                            </button>
+                        </div>
+
+                        <div class="market-item">
+                            <div class="item-image">
+                                <img src="https://ggstandoff.store/public/storage/items/1693400320cb99bf8725dfdb1090ba4d9f9bd783c4.png" alt="M4A1 Dragon" class="item-img">
+                            </div>
+                            <div class="item-info">
+                                <h3>M4A1 SERPENTI</h3>
+                                <p class="item-description">Epic M4A1</p>
+                                <div class="item-price">
+                                    <i class="fas fa-coins"></i>
+                                    <span>3000 coins</span>
+                                </div>
+                            </div>
+                            <button class="buy-btn" onclick="buyItem('m4a1_dragon', 3000)">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Sotib olish</span>
+                            </button>
+                        </div>
+
+                        <div class="market-item">
+                            <div class="item-image">
+                                <img src="https://cdn.donatov.blog/v6/assets/main/images/preview_684d7ef06901b7.99316519.webp" alt="Butterfly Knife" class="item-img">
+                            </div>
+                            <div class="item-info">
+                                <h3>Karambit Gold Knife</h3>
+                                <p class="item-description">Gold Karambit pichoq</p>
+                                <div class="item-price">
+                                    <i class="fas fa-coins"></i>
+                                    <span>150000 coins</span>
+                                </div>
+                            </div>
+                            <button class="buy-btn" onclick="buyItem('knife_butterfly', 150000)">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Sotib olish</span>
+                            </button>
+                        </div>
+
+                        <div class="market-item">
+                            <div class="item-image">
+                                <img src="https://cdn.donatov.blog/v6/assets/main/images/preview_684d7d5c97d7b2.09818185.webp" alt="Bloodhound Gloves" class="item-img">
+                            </div>
+                            <div class="item-info">
+                                <h3>Plague Qolqop</h3>
+                                <p class="item-description">Qon izlovchi qo'lqoplar</p>
+                                <div class="item-price">
+                                    <i class="fas fa-coins"></i>
+                                    <span>8000 coins</span>
+                                </div>
+                            </div>
+                            <button class="buy-btn" onclick="buyItem('gloves_bloodhound', 8000)">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Sotib olish</span>
+                            </button>
+                        </div>
+
+                        <div class="market-item">
+                            <div class="item-image">
+                                <img src="https://i.ytimg.com/vi/71MeqmqXujQ/hqdefault.jpg" alt="AWP Dragon Lore" class="item-img">
+                            </div>
+                            <div class="item-info">
+                                <h3>AWP Dragon </3>
+                                <p class="item-description">Afsungar AWP skin</p>
+                                <div class="item-price">
+                                    <i class="fas fa-coins"></i>
+                                    <span>25000 coins</span>
+                                </div>
+                            </div>
+                            <button class="buy-btn" onclick="buyItem('awp_dragon_lore', 25000)">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Sotib olish</span>
+                            </button>
+                        </div>
+
+                        <div class="market-item">
+                            <div class="item-image">
+                                <img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ08mlhJO0k_jzNKLunm5Q_tw_2ezFrInz0AyyrUtuYWr6do-QI1U7ZVyCrFbrwb3mjcK-u87Kn3Y27z5iuyjrORcz7w" alt="USP Kill Confirmed" class="item-img">
+                            </div>
+                            <div class="item-info">
+                                <h3>USP Kill Confirmed</h3>
+                                <p class="item-description">Tasdiqlangan o'ldirish USP</p>
+                                <div class="item-price">
+                                    <i class="fas fa-coins"></i>
+                                    <span>2000 coins</span>
+                                </div>
+                            </div>
+                            <button class="buy-btn" onclick="buyItem('usp_kill_confirmed', 2000)">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Sotib olish</span>
+                            </button>
+                        </div>
+                        <div class="market-item">
+                            <div class="item-image">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR91KDb9Z12-r3RESYCbV3NLJO1HHssUImt0WjeT9DWoeARcZh3IzbfXAWSOw1R-oC4RLY&usqp=CAU" alt="USP Kill Confirmed" class="item-img">
+                            </div>
+                            <div class="item-info">
+                                <h3>Fllash</h3>
+                                <p class="item-description">Fllash Nemeless</p>
+                                <div class="item-price">
+                                    <i class="fas fa-coins"></i>
+                                    <span>20000 coins</span>
+                                </div>
+                            </div>
+                            <button class="buy-btn" onclick="buyItem('usp_kill_confirmed', 20000)">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Sotib olish</span>
+                            </button>
+                        </div>
+
+                        <div class="market-item">
+                            <div class="item-image">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGCYGZf97OnHIlorNU-O0QyCBz7tKqCACGDg&s" alt="USP Kill Confirmed" class="item-img">
+                            </div>
+                            <div class="item-info">
+                                <h3>AKR DRAGON</h3>
+                                <p class="item-description">Dragon AKR</p>
+                                <div class="item-price">
+                                    <i class="fas fa-coins"></i>
+                                    <span>50000 coins</span>
+                                </div>
+                            </div>
+                            <button class="buy-btn" onclick="buyItem('usp_kill_confirmed', 50000)">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Sotib olish</span>
+                            </button>
+                        </div>
+
+                        <div class="market-item">
+                            <div class="item-image">
+                                <img src="https://cdn-www.bluestacks.com/bs-images/sf2-nameless-collection-ru-10.jpg" alt="USP Kill Confirmed" class="item-img">
+                            </div>
+                            <div class="item-info">
+                                <h3>Dessert Eagle</h3>
+                                <p class="item-description">Aureate</p>
+                                <div class="item-price">
+                                    <i class="fas fa-coins"></i>
+                                    <span>200000 coins</span>
+                                </div>
+                            </div>
+                            <button class="buy-btn" onclick="buyItem('usp_kill_confirmed', 200000)">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Sotib olish</span>
+                            </button>
+                        </div>
+
+
+                        <div class="market-item">
+                            <div class="item-image">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrMdb4v2KfHQbqrXVtgp-ZawJSr9ebVmVstA&s" alt="USP Kill Confirmed" class="item-img">
+                            </div>
+                            <div class="item-info">
+                                <h3>AWM GOLD</h3>
+                                <p class="item-description">GOLD</p>
+                                <div class="item-price">
+                                    <i class="fas fa-coins"></i>
+                                    <span>1000000 coins</span>
+                                </div>
+                            </div>
+                            <button class="buy-btn" onclick="buyItem('usp_kill_confirmed', 1000000)">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Sotib olish</span>
+                            </button>
+                        </div>
+
+                        
+
+
+
                     </div>
                 </div>
             </section>
